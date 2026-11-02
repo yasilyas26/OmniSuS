@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793545390166,
+      "tag": "0000_concerned_tony_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793546721384,
+      "tag": "0001_useful_phantom_reporter",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793549509376,
+      "tag": "0002_classy_scarlet_witch",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793549808489,
+      "tag": "0003_acoustic_blockbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793555426026,
+      "tag": "0004_legal_weapon_omega",
+      "breakpoints": true
+    }
+  ]
+}
