@@ -1,7 +1,7 @@
 import { Pool } from "@neondatabase/serverless";
 import { type Page, expect } from "@playwright/test";
 
-export const PASSWORD = "password-e2e-123";
+export const PASSWORD = "Password-e2e-123!";
 
 const SUBPIXEL_TOLERANCE = 1;
 
@@ -32,7 +32,8 @@ export async function register(page: Page, name: string, email: string) {
   await page.goto("/daftar");
   await page.getByLabel("Nama lengkap").fill(name);
   await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Kata sandi").fill(PASSWORD);
+  await page.getByLabel("Kata sandi", { exact: true }).fill(PASSWORD);
+  await page.getByLabel("Konfirmasi kata sandi").fill(PASSWORD);
   await page.getByRole("button", { name: "Daftar", exact: true }).click();
   await expect(page).toHaveURL(/\/onboarding/);
 }
