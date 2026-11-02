@@ -1,0 +1,33 @@
+import type { Metadata } from "next";
+
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoginForm } from "@/features/auth";
+import { requireGuest } from "@/server/guards";
+
+export const metadata: Metadata = { title: "Masuk" };
+
+export default async function LoginPage({ searchParams }: PageProps<"/masuk">) {
+  await requireGuest();
+  const { nonaktif } = await searchParams;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Masuk</CardTitle>
+        <CardDescription>Masuk untuk melihat atau mengisi penilaian UMKM.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {nonaktif ? (
+          <Alert variant="destructive">
+            <AlertDescription>
+              Akun Anda dinonaktifkan oleh pemilik UMKM. Hubungi pemilik untuk mengaktifkannya
+              kembali.
+            </AlertDescription>
+          </Alert>
+        ) : null}
+        <LoginForm />
+      </CardContent>
+    </Card>
+  );
+}
