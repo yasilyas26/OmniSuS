@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { FormMessage } from "@/components/form/form-message";
+import { PasswordChecklist } from "@/components/form/password-checklist";
 import { TextField } from "@/components/form/text-field";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { applyActionError } from "@/lib/form";
-import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 import { registerAction } from "../actions";
 import { type RegisterInput, registerSchema } from "../schemas";
@@ -25,11 +25,14 @@ export function RegisterForm({ defaultEmail }: { defaultEmail?: string }) {
     register,
     handleSubmit,
     setError,
+    control,
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: { email: defaultEmail },
   });
+
+  const password = useWatch({ control, name: "password" });
 
   const onSubmit = handleSubmit((values) => {
     setFormError(null);
@@ -68,9 +71,17 @@ export function RegisterForm({ defaultEmail }: { defaultEmail?: string }) {
           label="Kata sandi"
           type="password"
           autoComplete="new-password"
-          description={`Minimal ${MIN_PASSWORD_LENGTH} karakter.`}
           error={errors.password}
           {...register("password")}
+        />
+        <PasswordChecklist value={password} />
+        <TextField
+          id="confirmPassword"
+          label="Konfirmasi kata sandi"
+          type="password"
+          autoComplete="new-password"
+          error={errors.confirmPassword}
+          {...register("confirmPassword")}
         />
       </FieldGroup>
       <FormMessage message={formError} />

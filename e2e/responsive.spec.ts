@@ -34,7 +34,9 @@ for (const locale of LOCALES) {
         page,
       }) => {
         await page.goto("/");
-        const headerLink = page.locator("header").getByRole("link", { name: /Get started|Mulai sekarang/ });
+        const headerLink = page
+          .locator("header")
+          .getByRole("link", { name: /Get started|Mulai sekarang/ });
         if (viewport.width >= TABLET_MIN_WIDTH) {
           await expect(headerLink).toBeVisible();
         } else {

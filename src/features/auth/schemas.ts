@@ -4,11 +4,17 @@ import { passwordSchema } from "@/lib/password";
 
 const emailSchema = z.string().trim().toLowerCase().pipe(z.email("Format email tidak valid."));
 
-export const registerSchema = z.object({
-  name: z.string().trim().min(2, "Nama minimal 2 karakter.").max(120),
-  email: emailSchema,
-  password: passwordSchema,
-});
+export const registerSchema = z
+  .object({
+    name: z.string().trim().min(2, "Nama terlalu pendek (min. 2 karakter).").max(120),
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, "Ulangi kata sandi di sini."),
+  })
+  .refine((v) => v.password === v.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Konfirmasi tidak cocok.",
+  });
 
 export const loginSchema = z.object({
   email: emailSchema,

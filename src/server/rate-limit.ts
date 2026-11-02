@@ -45,7 +45,7 @@ export async function consumeRateLimit(rule: RateLimitRule, subject: string) {
     .returning({ count: rateLimits.count });
 
   if ((row?.count ?? 0) > rule.max) {
-    throw new AppError("RATE_LIMITED", "Terlalu banyak percobaan. Coba lagi beberapa menit lagi.");
+    throw new AppError("RATE_LIMITED", "Terlalu banyak percobaan. Coba lagi beberapa saat lagi.");
   }
 }
 

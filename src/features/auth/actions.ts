@@ -12,7 +12,8 @@ import { loginSchema, registerSchema } from "./schemas";
 
 export async function registerAction(input: unknown) {
   return toActionResult(async () => {
-    const data = registerSchema.parse(input);
+    const { name, email, password } = registerSchema.parse(input);
+    const data = { name, email, password };
     await consumeRateLimit(RATE_RULES.registerIp, await clientIp());
     try {
       await auth.api.signUpEmail({ body: data });

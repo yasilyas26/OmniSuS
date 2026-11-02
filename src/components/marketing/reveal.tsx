@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 
 /**
  * Memunculkan konten dengan fade + geser saat pertama kali masuk layar.

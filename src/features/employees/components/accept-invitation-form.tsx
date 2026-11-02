@@ -3,14 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { FormMessage } from "@/components/form/form-message";
+import { PasswordChecklist } from "@/components/form/password-checklist";
 import { TextField } from "@/components/form/text-field";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { applyActionError } from "@/lib/form";
-import { MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 import { acceptInvitationAction } from "../actions";
 import { type AcceptInvitationInput, acceptInvitationSchema } from "../schemas";
@@ -24,11 +24,14 @@ export function AcceptInvitationForm({ token }: { token: string }) {
     register,
     handleSubmit,
     setError,
+    control,
     formState: { errors },
   } = useForm<AcceptInvitationInput>({
     resolver: zodResolver(acceptInvitationSchema),
     defaultValues: { token },
   });
+
+  const password = useWatch({ control, name: "password" });
 
   const onSubmit = handleSubmit((values) => {
     setFormError(null);
@@ -52,10 +55,11 @@ export function AcceptInvitationForm({ token }: { token: string }) {
           label="Buat kata sandi"
           type="password"
           autoComplete="new-password"
-          description={`Minimal ${MIN_PASSWORD_LENGTH} karakter. Hanya kamu yang mengetahuinya, pemilik tidak.`}
+          description="Hanya kamu yang mengetahuinya, pemilik tidak."
           error={errors.password}
           {...register("password")}
         />
+        <PasswordChecklist value={password} />
       </FieldGroup>
       <FormMessage message={formError} />
       <Button type="submit" disabled={isPending} className="w-full">

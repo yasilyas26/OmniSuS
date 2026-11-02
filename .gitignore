@@ -49,6 +49,3 @@ next-env.d.ts
 docs
 # docs (local only)
 /docs/
-
-# Claude Code (lokal)
-/.claude/
