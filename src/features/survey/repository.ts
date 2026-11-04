@@ -4,14 +4,44 @@ import "server-only";
 import { type DbOrTx, db } from "@/server/db/client";
 import {
   answers,
+  businesses,
   dimensions,
   instruments,
+  memberships,
   questionOptions,
   questions,
   responses,
+  user,
 } from "@/server/db/schema";
 
 import type { AnswerEntry } from "./types";
+
+/** Kontak untuk email notifikasi; hanya nama dan email, tidak ada jawaban. */
+export async function findUserContact(userId: string) {
+  const [row] = await db
+    .select({ email: user.email, name: user.name })
+    .from(user)
+    .where(eq(user.id, userId))
+    .limit(1);
+  return row ?? null;
+}
+
+export async function findOwnerContact(businessId: string) {
+  const [row] = await db
+    .select({ email: user.email, name: user.name, businessName: businesses.name })
+    .from(memberships)
+    .innerJoin(user, eq(user.id, memberships.userId))
+    .innerJoin(businesses, eq(businesses.id, memberships.businessId))
+    .where(
+      and(
+        eq(memberships.businessId, businessId),
+        eq(memberships.role, "OWNER"),
+        eq(memberships.status, "ACTIVE"),
+      ),
+    )
+    .limit(1);
+  return row ?? null;
+}
 
 export async function findActiveInstrument(role: "OWNER" | "EMPLOYEE") {
   const [row] = await db

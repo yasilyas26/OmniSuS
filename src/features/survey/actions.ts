@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
 import { toActionResult } from "@/lib/action";
 import { requireMembership } from "@/server/guards";
 
+import { notifySurveySubmitted } from "./notify";
 import { submitSurveySchema } from "./schemas";
 import { surveyService } from "./service";
 
@@ -15,6 +17,7 @@ export async function saveSurveyAction(input: unknown) {
     const data = submitSurveySchema.parse(input);
     await surveyService.save(member, data);
     if (data.final) {
+      after(() => notifySurveySubmitted(member, data.assessmentId));
       revalidatePath("/dashboard");
       revalidatePath("/penilaian");
     }

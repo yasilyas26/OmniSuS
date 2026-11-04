@@ -82,7 +82,7 @@ export const employeesService = {
     });
 
     // Token mentah hanya dikembalikan di sini; yang tersimpan hanya hash-nya.
-    return { inviteUrl: `${env.BETTER_AUTH_URL}/undangan/${token}`, expiresAt };
+    return { inviteUrl: `${env.APP_URL}/undangan/${token}`, expiresAt };
   },
 
   async cancelInvitation(member: Member, invitationId: string) {

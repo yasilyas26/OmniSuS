@@ -6,8 +6,14 @@ const envSchema = z.object({
   DATABASE_URL: z.string().startsWith("postgres"),
   BETTER_AUTH_SECRET: z.string().min(MIN_AUTH_SECRET_LENGTH),
   BETTER_AUTH_URL: z.url().default("http://localhost:3000"),
+  // Alamat publik aplikasi untuk tautan undangan/notifikasi. Terpisah dari BETTER_AUTH_URL
+  // karena integrasi Neon Auth bisa menimpanya dengan URL Neon.
+  APP_URL: z.url().default("http://localhost:3000"),
   MIN_EMPLOYEE_RESPONSES: z.coerce.number().int().min(1).default(3),
   OWNER_WEIGHT: z.coerce.number().min(0).max(1).default(0.5),
+  // Opsional: tanpa N8N_WEBHOOK_URL, notifikasi ke n8n dilewati.
+  N8N_WEBHOOK_URL: z.url().optional(),
+  N8N_WEBHOOK_SECRET: z.string().min(1).optional(),
 });
 
 function parseEnv() {

@@ -97,6 +97,17 @@ export const assessmentsService = {
     };
   },
 
+  /** Pemilik dan seluruh karyawan aktif sudah kirim final. Tanpa karyawan aktif dianggap belum. */
+  async isFullySubmitted(businessId: string, assessmentId: string) {
+    const [submitted, activeEmployeeCount] = await Promise.all([
+      countSubmittedByRole(assessmentId),
+      countActiveEmployees(businessId),
+    ]);
+    return (
+      submitted.owner > 0 && activeEmployeeCount > 0 && submitted.employee >= activeEmployeeCount
+    );
+  },
+
   /** Aturan PRD §7.4. Skor dihitung lalu disimpan sebagai snapshot dalam satu transaksi. */
   async close(member: Member, input: CloseAssessmentInput) {
     assertOwner(member);
