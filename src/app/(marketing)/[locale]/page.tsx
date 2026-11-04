@@ -16,8 +16,8 @@ import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 
 const TITLES = {
-  id: "OmniSUS · Seberapa sehat UMKM-mu dari dalam?",
-  en: "OmniSUS · How healthy is your business from the inside?",
+  id: "OmniSUS",
+  en: "OmniSUS",
 } as const;
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
